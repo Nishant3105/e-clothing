@@ -1,18 +1,27 @@
-import ReactDOM from 'react-dom'
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-
-const ModalOverlay=(props)=>{
-  return (
-    <div>
-        {props.children}
-    </div>
-  )
-}
+const ModalOverlay = (props) => {
+    return (
+        <div>
+            {props.children}
+            <button onClick={props.onClick}>Close</button>
+        </div>
+    );
+};
 
 const Modal = (props) => {
-  return (
-    {ReactDOM.createPortal(<ModalOverlay/>,document.getElementById('modal-root'))}
-  )
-}
+    const portalElement = document.getElementById('modal-root');
+    return (
+        <>
+            {ReactDOM.createPortal(
+                <ModalOverlay onClick={props.onClick}>
+                    {props.children}
+                </ModalOverlay>,
+                portalElement
+            )}
+        </>
+    );
+};
 
-export default Modal
+export default Modal;

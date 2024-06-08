@@ -1,34 +1,27 @@
 import React, { useContext } from 'react'
-import { CartContext } from '../Context/CartContext'
+import CartContext from '../Context/CartContext'
 import Modal from './Modal'
-import { ProductContext } from '../Context/ProductContext'
+import  ProductContext  from '../Context/ProductContext'
 
-const Cart = () => {
+const Cart = (props) => {
     const cartCtx = useContext(CartContext)
-    const productCtx=useContext(ProductContextProvider)
-
-    const placeOrderHandler=()=>{
-        // cartCtx.clearCart()
-        productCtx.updateProductQuantity()
-    }
+    const productCtx=useContext(ProductContext)
 
     const CartItems = cartCtx.cartProducts.map((p, index) => {
         return (
             <li key={index}>
-                <span>p.name</span>
-                <span>p.quantity</span>
-                <button>+</button>
-                <button>-</button>
+                <span>Name: {p.name} Price:{p.price}</span>
+                <span>({p.quantity})</span>
             </li>
         )
-        })
-        return (
-            <Modal>
+    })
+    return (
+        <Modal onClick={props.onClick}>
             <div>
                 <ul>
                     {CartItems}
                 </ul>
-                <button onClick={placeOrderHandler}>Place Order</button>
+                {cartCtx.cartProducts.length!==0 && <button onClick={()=>productCtx.updateProductQuantity(cartCtx.cartProducts)}>Place Order</button>}
             </div>
         </Modal>
     )
